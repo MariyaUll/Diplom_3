@@ -1,11 +1,7 @@
 import allure
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.common.action_chains import ActionChains
 from pages.base_page import BasePage
 from locators.main_page_locators import MainPageLocators
 from urls import MAIN_PAGE_URL
-
 
 class MainPage(BasePage):
 
@@ -42,10 +38,7 @@ class MainPage(BasePage):
 
     @allure.step("Получить значение счётчика первого ингредиента")
     def get_first_ingredient_counter(self):
-        element = self.wait.until(
-            EC.visibility_of_element_located(MainPageLocators.INGREDIENT_COUNTER)
-        )
-        return element.text
+        return self.get_text(MainPageLocators.INGREDIENT_COUNTER)
 
     @allure.step("Перетащить первый ингредиент в конструктор")
     def drag_first_ingredient_to_constructor(self):
@@ -53,7 +46,6 @@ class MainPage(BasePage):
             MainPageLocators.FIRST_INGREDIENT,
             MainPageLocators.BASKET_LIST,
         )
-
 
     @allure.step("Кликнуть «Оформить заказ»")
     def click_place_order(self):
@@ -63,9 +55,10 @@ class MainPage(BasePage):
     def wait_order_modal_opened(self):
         self.find_visible_element(MainPageLocators.ORDER_MODAL)
 
+    @allure.step("Получить номер заказа")
     def get_order_number(self, timeout=10):
         def order_number_ready(driver):
-            elements = driver.find_elements(*MainPageLocators.ORDER_NUMBER)
+            elements = self.find_elements(MainPageLocators.ORDER_NUMBER)
             if not elements:
                 return False
             text = elements[0].text.strip()
@@ -73,7 +66,7 @@ class MainPage(BasePage):
                 return elements[0]
             return False
 
-        element = WebDriverWait(self.driver, timeout).until(order_number_ready)
+        element = self.wait_for_condition(order_number_ready, timeout)
         return element.text.strip()
 
     @allure.step("Закрыть модальное окно с номером заказа")

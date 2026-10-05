@@ -8,16 +8,17 @@ class MainPageLocators:
     )
 
     FIRST_INGREDIENT = (
-        By.CSS_SELECTOR,
-        '[class^="BurgerIngredients_ingredients__menuContainer"] ul:first-of-type a',
+        By.XPATH,
+        "//a[@href='/ingredient/61c0c5a71d1f82001bdaaa6d']",
     )
     INGREDIENT_COUNTER = (
-        By.CSS_SELECTOR,
-        '[class^="BurgerIngredients_ingredients__menuContainer"] ul:first-of-type a [class^="counter"]',
+        By.XPATH,
+        "//a[@href='/ingredient/61c0c5a71d1f82001bdaaa6d']"
+        "//*[contains(@class, 'counter_counter__num')]",
     )
     BASKET_LIST = (
         By.CSS_SELECTOR,
-        '[class^="BurgerConstructor_basket__list"]',
+        "[class^='BurgerConstructor_basket__list']",
     )
 
     INGREDIENT_MODAL = (
