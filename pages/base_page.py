@@ -68,7 +68,7 @@ class BasePage:
         self._execute_drag_and_drop_js(source, target)
 
 
-    # Приватный метод для JS-реализации drag-and-drop
+    @allure.step("Выполнить drag-and-drop через JS: {source} → {target}")
     def _execute_drag_and_drop_js(self, source, target):
         js_script = """
         var source = arguments[0];

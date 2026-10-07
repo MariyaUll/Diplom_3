@@ -6,6 +6,7 @@ from pages.main_page import MainPage
 from pages.header_page import HeaderPage
 from pages.order_feed_page import OrderFeedPage
 from helpers.order_helper import OrderHelper
+from pages.login_page import LoginPage
 from urls import MAIN_PAGE_URL
 
 
@@ -79,16 +80,12 @@ def on_order_feed_page(header_page):
     return header_page
 
 @pytest.fixture
-def feed_page(driver):
-    """Готовая страница ленты заказов (открыта и загружена)."""
-    page = OrderFeedPage(driver)
-    page.open_feed_page()
-    page.wait_feed_loaded()
-    return page
+def login_page(driver):
+    return LoginPage(driver)
 
 @pytest.fixture
-def created_order_number(driver):
+def created_order_number(login_page, main_page):
     """Создаёт заказ через Helper и возвращает номер заказа (без ведущего нуля)."""
     helper = OrderHelper()
-    order_number = helper.create_order(driver)
+    order_number = helper.create_order(login_page, main_page)
     return order_number
